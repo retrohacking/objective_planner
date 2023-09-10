@@ -1,8 +1,7 @@
 import objective_planner
 
 def main():
-	pass
+	objective_planner.check_config()
 	
-
 if __name__ == "main":
 	main()
