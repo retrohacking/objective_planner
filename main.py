@@ -3,5 +3,5 @@ import objective_planner
 def main():
 	objective_planner.check_config()
 	
-if __name__ == "main":
+if __name__ == "__main__":
 	main()
