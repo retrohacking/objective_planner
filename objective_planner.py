@@ -1,6 +1,7 @@
 from utils.config_manager import update_last_access
 from utils.file_manager import create_json
 from utils.input_check import int_input
+from utils.window_manager import print_window, get_choice
 import os
 
 def configure():
@@ -25,3 +26,7 @@ def initialize():
       if not os.path.exists("config.json"):
             configure()
       update_last_access()
+
+def run():
+      print_window()
+      option=get_choice()
