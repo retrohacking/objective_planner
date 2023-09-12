@@ -14,3 +14,9 @@ def create_database(dbname):
 def configure_database(db):
     cur=db.cursor()
     cur.execute("CREATE TABLE plans(id, plan, description, start_date, end_date, status) ")
+
+def load_json(file):
+    configfile=open(file, "r")
+    jsonfile=json.load(configfile)
+    configfile.close()
+    return jsonfile

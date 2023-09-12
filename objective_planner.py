@@ -19,6 +19,7 @@ def initialize():
 
 def run():
       print_window()
-      option=get_choice()
       db=load_database(DATABASE)
-      run_command(option, db)
+      while True:
+            option=get_choice()
+            run_command(option, db)

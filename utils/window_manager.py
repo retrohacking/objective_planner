@@ -34,8 +34,9 @@ def print_window():
 def get_choice():
     valid_option=False
     while not valid_option:
-        valid_option, option=is_valid_option(input("> ").lower())
+        print("Insert your option")
+        valid_option, option=is_valid_option(MENU_OPTIONS, input("> ").lower())
         if valid_option:
             return option
         else:
-            print("Please insert a valid option.")
+            print("Please insert a valid option.\n")

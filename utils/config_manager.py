@@ -1,5 +1,5 @@
 from . import *
-from utils.file_manager import create_json
+from utils.file_manager import create_json, load_json
 from utils.input_check import int_input
 
 def update_last_access():
@@ -33,15 +33,11 @@ def configure():
         configs["last_dismiss_reset"]=time.localtime()
         create_json("config", configs)   
 
-def load_config(file):
-    configfile=open(file, "r")
-    jsonfile=json.load(configfile)
-    configfile.close()
-    return jsonfile
+
 
 def config_dismiss_file():
     config={}
-    configjson=load_config(CONFIG)
+    configjson=load_json(CONFIG)
     config["residual_dismiss"]=configjson["max_dismiss"]
     config["last_dismiss_reset"]=time.localtime()
     create_json(DISMISS, config)

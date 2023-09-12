@@ -1,5 +1,5 @@
 from . import *
-from utils.functionalities import MENU_OPTIONS
+
 
 def int_input(input_string=""):
     while True:
@@ -10,8 +10,15 @@ def int_input(input_string=""):
             print("Please insert a valid number.")
     return value
 
-def is_valid_option(option):
+def is_valid_option(MENU_OPTIONS, option):
     if option in MENU_OPTIONS.keys():
         return True, option
     else:
         return False, option
+    
+def check_yesno(answer):
+    if answer=="y":
+        return True
+    else:
+        return False
+
