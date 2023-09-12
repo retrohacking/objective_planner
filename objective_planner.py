@@ -1,7 +1,8 @@
 from utils.config_manager import update_last_access
 from utils.file_manager import create_json
+from utils.functionalities import run_command
 from utils.input_check import int_input
-from utils.window_manager import print_window, get_choice
+from utils.window_manager import print_window, get_choice 
 import os
 
 def configure():
@@ -30,3 +31,4 @@ def initialize():
 def run():
       print_window()
       option=get_choice()
+      run_command(option)
