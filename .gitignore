@@ -1,2 +1,4 @@
 __pycache__/
 config.json
+objplanner.sqlite
+residual_dismiss.json

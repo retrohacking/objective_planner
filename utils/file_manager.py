@@ -7,3 +7,10 @@ def create_json(filename, data):
     file=open(filename, "w")
     file.write(jsondata)
     file.close()
+
+def create_database(dbname):
+    return sqlite3.connect(dbname)
+
+def configure_database(db):
+    cur=db.cursor()
+    cur.execute("CREATE TABLE plans(id, plan, description, start_date, end_date, status) ")
