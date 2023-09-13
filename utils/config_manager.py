@@ -29,8 +29,6 @@ def configure():
         print("You can't dismiss more plans than you have.\n")
         configure()
     else:
-        configs["residual_dismiss"]=configs["max_dismiss"]
-        configs["last_dismiss_reset"]=time.localtime()
         create_json("config", configs)   
 
 
@@ -39,5 +37,27 @@ def config_dismiss_file():
     config={}
     configjson=load_json(CONFIG)
     config["residual_dismiss"]=configjson["max_dismiss"]
-    config["last_dismiss_reset"]=time.localtime()
+    config["next_dismiss_reset"]=time.localtime()
     create_json(DISMISS, config)
+
+def update_dismiss():
+    config={}
+    dismissjson=load_json(DISMISS)
+    yearreset=dismissjson["next_dismiss_reset"][0]
+    monthreset=dismissjson["next_dismiss_reset"][1]
+    dayreset=dismissjson["next_dismiss_reset"][2]
+    datereset=date(yearreset, monthreset, dayreset)
+    today=date.today()
+    if today>=datereset:
+        datereset=datereset+relativedelta(months=date.today().month-monthreset+1)
+        configjson=load_json(CONFIG)
+        dismissjson["residual_dismiss"]=configjson["max_dismiss"]
+        dismissjson["next_dismiss_reset"][0]=datereset.year
+        dismissjson["next_dismiss_reset"][1]=datereset.month
+        dismissjson["next_dismiss_reset"][2]=datereset.day
+        create_json(DISMISS, dismissjson)
+        
+        
+
+
+    

@@ -1,6 +1,6 @@
-from utils.config_manager import config_dismiss_file, configure, update_last_access
+from utils.config_manager import config_dismiss_file, configure, update_last_access, update_dismiss
 from utils.database_manager import setup_database, load_database
-from utils.functionalities import run_command
+from utils.functionalities import run_command, MENU_OPTIONS
 from utils.window_manager import print_window, get_choice 
 from utils import DATABASE, CONFIG, DISMISS
 import os
@@ -16,6 +16,7 @@ def initialize():
 
       if not os.path.exists(DISMISS):
             config_dismiss_file()
+      update_dismiss()
 
 def run():
       print_window()

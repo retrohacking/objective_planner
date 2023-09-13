@@ -3,6 +3,7 @@ from utils.file_manager import load_json, create_json
 from utils.input_check import check_yesno, check_valid_objective
 from utils.database_manager import select, select_by_status, insert_plan, set_objective_as_completed, set_objective_as_dismissed
 
+
 def add_objective(db):
     configjson=load_json(CONFIG)
     max_objectives=configjson["max_plans"]
@@ -88,6 +89,11 @@ def list_successful_objectives(db):
         print(f"[{obj[0]}] {obj[1]}\t|\tStart: {start_date} - End: {end_date}")
     print("")
 
+
+def print_options(db=None):
+    for key in MENU_OPTIONS.keys():
+        print(f"{key} - {MENU_OPTIONS[key][0]}")
+
 def quit_planner(db):
     db[1].close()
     db[0].close()    
@@ -96,9 +102,10 @@ def quit_planner(db):
 MENU_OPTIONS={"a" : ["Add a new objective", add_objective],
               "c" : ["Complete an objective", complete_objective],
               "d" : ["Dismiss an objective", dismiss_objective],
-              "l" : ["List the active objectives", list_active_objectives],
-              "la": ["List all the objectives", list_all_objectives],
-              "ls" : ["List successful objectives", list_successful_objectives],
+              "l" : ["List all the objectives", list_all_objectives],
+              "la": ["List the active objectives", list_active_objectives],
+              "ls": ["List successful objectives", list_successful_objectives],
+              "h" : ["Show this guide", print_options],
               "q" : ["Quit\n", quit_planner]}
 
 def run_command(command,db):

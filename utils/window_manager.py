@@ -1,6 +1,6 @@
 from . import *
-from utils.functionalities import MENU_OPTIONS
 from utils.input_check import is_valid_option
+from utils.functionalities import MENU_OPTIONS, print_options
 
 def print_banner():
 
@@ -23,9 +23,6 @@ def print_banner():
     print(f"\t\t\t\t\t{GITHUB}")
     print("\n\n")
 
-def print_options():
-    for key in MENU_OPTIONS.keys():
-        print(f"{key} - {MENU_OPTIONS[key][0]}")
 
 def print_window():
     print_banner()
