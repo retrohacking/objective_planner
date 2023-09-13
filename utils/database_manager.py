@@ -22,3 +22,11 @@ def insert_plan(db, plan, description):
     id=len(select(db[1], "plans", "id"))
     db[1].execute(f"INSERT INTO plans VALUES (?, ?, ?, ?, ?, 'active')", (id, plan, description, time.time(), None))
     db[0].commit()
+
+def set_objective_as_completed(db, completed):
+    db[1].execute("UPDATE plans SET end_date=?, status='completed' WHERE id=?", (time.time(), completed))
+    db[0].commit()
+
+def set_objective_as_dismissed(db, dismissed):
+    db[1].execute("UPDATE plans SET end_date=?, status='dismissed' WHERE id=?", (time.time(), dismissed))
+    db[0].commit()

@@ -1,7 +1,7 @@
 from . import *
-from utils.file_manager import load_json
-from utils.input_check import check_yesno
-from utils.database_manager import select, select_by_status, insert_plan
+from utils.file_manager import load_json, create_json
+from utils.input_check import check_yesno, check_valid_objective
+from utils.database_manager import select, select_by_status, insert_plan, set_objective_as_completed, set_objective_as_dismissed
 
 def add_objective(db):
     configjson=load_json(CONFIG)
@@ -24,10 +24,49 @@ def add_objective(db):
             return
 
 def complete_objective(db):
-    pass
-
+    print("Insert the ID of the completed objective:")
+    list_active_objectives(db)
+    objectives=select_by_status(db[1], 'plans', '*', 'active')
+    for i in range(3):
+        completed=input("> ")
+        valid_option, completed=check_valid_objective(objectives, completed)
+        if not valid_option:
+            print("Please insert a valid objective to set as completed")
+            if i==2:
+                print("Returning to home selection\n")
+            continue
+        else:
+            set_objective_as_completed(db, completed)
+            print("GREAT! KEEP IT UP!\n")
+            break
+    
 def dismiss_objective(db):
-    pass
+    jsonfile=load_json(DISMISS)
+    residual_dismissions=jsonfile["residual_dismiss"]
+    if residual_dismissions==0:
+        print("You have not residual dismissions for this month!\n")
+        return
+    else:
+        print("Which objective do you want to dismiss?")
+        list_active_objectives(db)
+        objectives=select_by_status(db[1], 'plans', '*', 'active')
+        for i in range(3):
+            dismissed=input("> ")
+            valid_option, dismissed=check_valid_objective(objectives, dismissed)
+            if not valid_option:
+                print("Please insert a valid objective to dismiss")
+                if i==2:
+                    print("Returning to home selection\n")
+                continue
+            else:
+                set_objective_as_dismissed(db, dismissed)
+                residual_dismissions-=1
+                jsonfile["residual_dismiss"]=residual_dismissions
+                create_json(DISMISS, jsonfile)
+                print("Don't worry! Better luck next time\n")
+                break
+
+
 
 def list_active_objectives(db):
     active_objectives=select_by_status(db[1], 'plans', '*', 'active')
@@ -42,7 +81,12 @@ def list_all_objectives(db):
     print("")
 
 def list_successful_objectives(db):
-    pass
+    active_objectives=select_by_status(db[1], 'plans', '*', 'completed')
+    for obj in active_objectives:
+        start_date=time.strftime('%Y/%m/%d', time.localtime(obj[3]))
+        end_date=time.strftime('%Y/%m/%d', time.localtime(obj[4]))
+        print(f"[{obj[0]}] {obj[1]}\t|\tStart: {start_date} - End: {end_date}")
+    print("")
 
 def quit_planner(db):
     db[1].close()
