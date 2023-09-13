@@ -6,7 +6,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 
 AUTHOR="Retro"
-VERSION=0.1
+VERSION=1.0
 YEAR=time.localtime()[0]
 GITHUB="https://github.com/retrohacking"
 

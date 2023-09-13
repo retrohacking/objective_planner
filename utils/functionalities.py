@@ -1,8 +1,9 @@
 from . import *
 from utils.file_manager import load_json, create_json
-from utils.input_check import check_yesno, check_valid_objective
+from utils.input_check import check_yesno, check_valid_objective, calculate_length
 from utils.database_manager import select, select_by_status, insert_plan, set_objective_as_completed, set_objective_as_dismissed
 
+EXTRA_PADDING=5
 
 def add_objective(db):
     configjson=load_json(CONFIG)
@@ -71,22 +72,25 @@ def dismiss_objective(db):
 
 def list_active_objectives(db):
     active_objectives=select_by_status(db[1], 'plans', '*', 'active')
+    
     for obj in active_objectives:
         print(f"[{obj[0]}] {obj[1]} - {obj[2]}")
     print("")
 
 def list_all_objectives(db):
     objectives=select(db[1], 'plans', '*')
+    padding=calculate_padding(objectives)+EXTRA_PADDING
     for obj in objectives:
-        print(f"[{obj[0]}] {obj[1]} - {obj[2]}\t[{obj[5]}]")
+        print(f"[{obj[0]}] {obj[1]} - {obj[2]}".ljust(padding)+f"[{obj[5]}]")
     print("")
 
 def list_successful_objectives(db):
     active_objectives=select_by_status(db[1], 'plans', '*', 'completed')
+    padding=calculate_padding(active_objectives)+EXTRA_PADDING
     for obj in active_objectives:
         start_date=time.strftime('%Y/%m/%d', time.localtime(obj[3]))
         end_date=time.strftime('%Y/%m/%d', time.localtime(obj[4]))
-        print(f"[{obj[0]}] {obj[1]}\t|\tStart: {start_date} - End: {end_date}")
+        print(f"[{obj[0]}] {obj[1]} - {obj[2]}".ljust(padding) +f"Start: {start_date} - End: {end_date}")
     print("")
 
 
@@ -110,3 +114,12 @@ MENU_OPTIONS={"a" : ["Add a new objective", add_objective],
 
 def run_command(command,db):
     MENU_OPTIONS[command][1](db)
+
+
+def calculate_padding(objectives):
+    maxlength=0
+    for obj in objectives:
+        objlen=calculate_length(f"[{obj[0]}] {obj[1]} - {obj[2]}")
+        if objlen>maxlength:
+            maxlength=objlen
+    return maxlength

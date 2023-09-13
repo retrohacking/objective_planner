@@ -32,3 +32,6 @@ def check_valid_objective(objectives, obj):
             return True, obj
     return False, obj
 
+def calculate_length(record):
+    return len(record)
+
