@@ -29,6 +29,9 @@ def complete_objective(db):
     print("Insert the ID of the completed objective:")
     list_active_objectives(db)
     objectives=select_by_status(db[1], 'plans', '*', 'active')
+    if len(objectives)==0:
+        print("There are no objectives to complete.\n")
+        return
     for i in range(3):
         completed=input("> ")
         valid_option, completed=check_valid_objective(objectives, completed)
@@ -52,6 +55,9 @@ def dismiss_objective(db):
         print("Which objective do you want to dismiss?")
         list_active_objectives(db)
         objectives=select_by_status(db[1], 'plans', '*', 'active')
+        if len(objectives)==0:
+            print("There are no objectives to dismiss.\n")
+            return
         for i in range(3):
             dismissed=input("> ")
             valid_option, dismissed=check_valid_objective(objectives, dismissed)
